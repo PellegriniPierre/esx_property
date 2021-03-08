@@ -1,6 +1,7 @@
 local OwnedProperties, Blips, CurrentActionData = {}, {}, {}
 local CurrentProperty, CurrentPropertyOwner, LastProperty, LastPart, CurrentAction, CurrentActionMsg
 local firstSpawn, hasChest, hasAlreadyEnteredMarker = true, false, false
+local PlayerLoaded = false					  
 ESX = nil
 
 Citizen.CreateThread(function()
@@ -8,6 +9,13 @@ Citizen.CreateThread(function()
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 		Citizen.Wait(0)
 	end
+	
+	while ESX.GetPlayerData().job == nil do
+		Citizen.Wait(100)
+	end
+
+	PlayerLoaded = true
+	ESX.PlayerData = ESX.GetPlayerData()
 end)
 
 RegisterNetEvent('esx:playerLoaded')
